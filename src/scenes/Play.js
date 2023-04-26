@@ -7,9 +7,11 @@ class Play extends Phaser.Scene{
         //load images/tile sprites
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
-        this.load.image('starfield', './assets/starfield.png');
+        //this.load.image('starfield', './assets/starfield.png');
         this.load.image('ufo', './assets/ufo.png');
         this.load.image('explode', './assets/explode.png');
+        this.load.image('space', './assets/space.png');
+
 
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight:
@@ -18,7 +20,7 @@ class Play extends Phaser.Scene{
 
     create() {
         // place tile sprite
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+        this.space = this.add.tileSprite(0, 0, 640, 480, 'space').setOrigin(0, 0);
 
         // green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2,
@@ -97,6 +99,11 @@ class Play extends Phaser.Scene{
         this.showTime = this.add.text(borderUISize + 500, borderUISize + 
             borderPadding * 2, this.clock.getElapsedSeconds(), scoreConfig);
         
+        // display "Fire and Computer UI"
+        this.fire = this.add.text(borderUISize + 200, borderUISize + 
+            borderPadding * 2, "FIRE", scoreConfig)
+        this.fire = this.add.text(borderUISize + 300, borderUISize + 
+            borderPadding * 2, "COMPUTER", scoreConfig)
     }
 
     update(){
@@ -108,7 +115,7 @@ class Play extends Phaser.Scene{
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)){
             this.scene.start("menuScene");
         }
-        this.starfield.tilePositionX -= 4;  // moving background
+        this.space.tilePositionX -= 1;  // moving background
 
         if(!this.gameOver){
             this.p1Rocket.update(); // update rocket sprite
