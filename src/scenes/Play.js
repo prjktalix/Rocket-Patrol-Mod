@@ -8,7 +8,8 @@ class Play extends Phaser.Scene{
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield', './assets/starfield.png');
-        this.load.image('ufo', './assets/ufo.png')
+        this.load.image('ufo', './assets/ufo.png');
+        this.load.image('explode', './assets/explode.png');
 
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight:
@@ -51,6 +52,7 @@ class Play extends Phaser.Scene{
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+     
 
         // animation config
         this.anims.create({
@@ -90,6 +92,8 @@ class Play extends Phaser.Scene{
                 scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
+
+        
     }
 
     update(){
@@ -156,7 +160,9 @@ class Play extends Phaser.Scene{
         });
         this.p1score += ship.points;
         this.scoreLeft.text = this.p1score;
-        this.sound.play('sfx_explosion');
+
+        // create 4 new explosion and randomize which one plays on impact
+        this.sound.play(Phaser.Math.RND.pick(['sfx_explosion', 'sfx_first_boom', 'sfx_second_boom', 'sfx_third_boom', 'sfx_fourth_boom']));
     }
 
 }
