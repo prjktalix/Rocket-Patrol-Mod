@@ -101,9 +101,31 @@ class Play extends Phaser.Scene{
         
         // display "Fire and Computer UI"
         this.fire = this.add.text(borderUISize + 200, borderUISize + 
-            borderPadding * 2, "FIRE", scoreConfig)
+            borderPadding * 2, "FIRE", scoreConfig);
         this.fire = this.add.text(borderUISize + 300, borderUISize + 
-            borderPadding * 2, "COMPUTER", scoreConfig)
+            borderPadding * 2, "COMPUTER", scoreConfig);
+    
+        // move rocket using mouse
+        this.input.on('pointermove', function(pointer){
+
+            if(!this.p1Rocket.isFiring || this.p1Rocket.isFiring){
+                //if(this.p1Rocket.x >=borderUISize + this.p1Rocket.width && this.p1Rocket.x 
+                //    <= game.config.width - borderUISize - this.p1Rocket.width){
+                        this.p1Rocket.x += pointer.movementX;
+                //}
+            }
+        }, this); 
+
+        // fire button using mouse
+        this.input.on('pointerdown', function(pointer){
+            this.input.mouse.requestPointerLock();
+
+            if(!this.p1Rocket.isFiring && pointer.leftButtonDown()){
+                this.p1Rocket.isFiring = true;
+                this.p1Rocket.sfxRocket.play();  // play sfx
+            }
+        }, this);
+
     }
 
     update(){
@@ -176,6 +198,7 @@ class Play extends Phaser.Scene{
 
         // create 4 new explosion and randomize which one plays on impact
         this.sound.play(Phaser.Math.RND.pick(['sfx_explosion', 'sfx_first_boom', 'sfx_second_boom', 'sfx_third_boom', 'sfx_fourth_boom']));
+
     }
 
 }
