@@ -85,7 +85,7 @@ class Play extends Phaser.Scene{
         // GAME OVER flag
         this.gameOver = false;
 
-        // 60-second play clock
+        // play clock
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER',
@@ -94,7 +94,8 @@ class Play extends Phaser.Scene{
                 scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
-
+        
+        
         // display time
         this.showTime = this.add.text(borderUISize + 500, borderUISize + 
             borderPadding * 2, this.clock.getElapsedSeconds(), scoreConfig);
@@ -108,7 +109,7 @@ class Play extends Phaser.Scene{
         // move rocket using mouse
         this.input.on('pointermove', function(pointer){
 
-            if(!this.p1Rocket.isFiring || this.p1Rocket.isFiring){
+            if(!this.p1Rocket.isFiring || this.p1Rocket.isFiring && !this.gameOver){
                 //if(this.p1Rocket.x >=borderUISize + this.p1Rocket.width && this.p1Rocket.x 
                 //    <= game.config.width - borderUISize - this.p1Rocket.width){
                         this.p1Rocket.x += pointer.movementX;
@@ -120,12 +121,26 @@ class Play extends Phaser.Scene{
         this.input.on('pointerdown', function(pointer){
             this.input.mouse.requestPointerLock();
 
-            if(!this.p1Rocket.isFiring && pointer.leftButtonDown()){
+            if(!this.p1Rocket.isFiring && pointer.leftButtonDown() && !this.gameOver){
                 this.p1Rocket.isFiring = true;
                 this.p1Rocket.sfxRocket.play();  // play sfx
             }
         }, this);
+        
+        // create sound instance 
+        // cite: rexrainbow phaser 3 audio
+        var config = {
+            mute: false,
+            volume: 0.50,
+            rate:1,
+            detune:0,
+            seek:0,
+            loop: true,
+            delay: 0
+        }
 
+        this.background_sfx = this.sound.add('bgm_space');
+        this.background_sfx.play(config);
     }
 
     update(){
@@ -164,7 +179,6 @@ class Play extends Phaser.Scene{
             this.p1Rocket.reset();
             this.shipExplode(this.ufo);
         }
-        
         // updated show the timer
         this.timeLeft = Math.trunc((game.settings.gameTimer / 1000) - this.clock.getElapsedSeconds());
         this.showTime.text =  this.timeLeft;
@@ -199,6 +213,11 @@ class Play extends Phaser.Scene{
         // create 4 new explosion and randomize which one plays on impact
         this.sound.play(Phaser.Math.RND.pick(['sfx_explosion', 'sfx_first_boom', 'sfx_second_boom', 'sfx_third_boom', 'sfx_fourth_boom']));
 
+        //particle effects when explode in progress 
+        // cite: rexrainbow particles
+        // particles = this.add.particles('explode', {
+        
+        // });
     }
 
 }
