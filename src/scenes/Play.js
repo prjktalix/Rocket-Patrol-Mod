@@ -11,6 +11,7 @@ class Play extends Phaser.Scene{
         this.load.image('ufo', './assets/ufo.png');
         this.load.image('explode', './assets/explode.png');
         this.load.image('space', './assets/space.png');
+        this.load.atlas('flares', './assets/flares.png', './assets/flares.json');   // load particle emmiter
 
 
         // load spritesheet
@@ -141,6 +142,8 @@ class Play extends Phaser.Scene{
 
         this.background_sfx = this.sound.add('bgm_space');
         this.background_sfx.play(config);
+        
+     
     }
 
     update(){
@@ -213,11 +216,17 @@ class Play extends Phaser.Scene{
         // create 4 new explosion and randomize which one plays on impact
         this.sound.play(Phaser.Math.RND.pick(['sfx_explosion', 'sfx_first_boom', 'sfx_second_boom', 'sfx_third_boom', 'sfx_fourth_boom']));
 
-        //particle effects when explode in progress 
+        // particle effects when explode 
         // cite: rexrainbow particles
-        // particles = this.add.particles('explode', {
-        
-        // });
+        this.add.particles(ship.x, ship.y, 'flares', {
+            frame: ['red', 'yellow', 'green', 'blue', 'white'],
+            speed: 100,
+            lifespan: 1000,
+            gravityY: 200,
+            alpha: 1,
+            duration: 100,
+            blendMode: 'ADD' 
+        });
     }
 
 }
