@@ -180,7 +180,8 @@ class Play extends Phaser.Scene{
         }
         // updated show the timer
         this.timeLeft = Math.trunc((game.settings.gameTimer / 1000) - this.clock.getElapsedSeconds());
-        this.showTime.text =  this.timeLeft;
+        this.showTime.text = this.timeLeft;
+
     }
 
     checkCollision(rocket, ship){
@@ -221,8 +222,9 @@ class Play extends Phaser.Scene{
             gravityY: 200,
             alpha: 1,
             duration: 100,
-            blendMode: 'ADD' 
+            blendMode: 'ADD'
         });
+        this.clock.delay += 1000;
     }
 
 }
