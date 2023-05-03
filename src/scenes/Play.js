@@ -128,7 +128,7 @@ class Play extends Phaser.Scene{
         // cite: rexrainbow phaser 3 audio
         var config = {
             mute: false,
-            volume: 0.50,
+            volume: 0.25,
             rate:1,
             detune:0,
             seek:0,
@@ -179,7 +179,7 @@ class Play extends Phaser.Scene{
             this.shipExplode(this.ufo);
         }
         // updated show the timer
-        this.timeLeft = Math.trunc((game.settings.gameTimer / 1000) - this.clock.getElapsedSeconds());
+        this.timeLeft = Math.trunc((this.currentTime / 1000) - this.clock.getElapsedSeconds());
         this.showTime.text = this.timeLeft;
 
     }
@@ -224,7 +224,7 @@ class Play extends Phaser.Scene{
             duration: 100,
             blendMode: 'ADD'
         });
-        this.clock.delay += 1000;
+        this.currentTime = this.clock.delay += 1000;
     }
 
 }
