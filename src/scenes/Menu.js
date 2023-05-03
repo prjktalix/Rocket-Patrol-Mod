@@ -13,17 +13,20 @@ class Menu extends Phaser.Scene{
         this.load.audio('sfx_third_boom', './assets/boom2.wav');    
         this.load.audio('sfx_fourth_boom', './assets/boom3.wav');  
         this.load.audio('bgm_space', './assets/spacesound.mp3');  
+        this.load.image('elon', './assets/elon.jpeg')
 
     }
     
     create(){
+        this.elon = this.add.tileSprite(0, 0, 640, 480, 'elon').setOrigin(0, 0);
+
         // menu text configuration
         let menuConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            aslign: 'right',
+            backgroundColor: '#C42935',
+            color: '#FFFFFF',
+            allign: 'right',
             padding: {
                 top: 5,
                 bottom: 5,
@@ -33,21 +36,25 @@ class Menu extends Phaser.Scene{
 
         // show menu text
         this.add.text(game.config.width / 2, game.config.height / 2 - borderUISize -
-            borderPadding, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
+            borderPadding, 'BOOM BEACH SHUTTLE', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width / 2, game.config.height / 2, 'User ←→ arrows to move & (F) to fire',
             menuConfig).setOrigin(0.5);
-        menuConfig.backgroundColor = '#00FF00';
-        menuConfig.color = '#000';
-        this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + 
-            borderPadding, 'Press ← for novice or → for Expert', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2,game.config.height / 2 + borderUISize + 
+        borderPadding, 'OR User Mouse to control &',
+            menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2, 324, '(Left-Click Button) to fire',
+            menuConfig).setOrigin(0.5);
+
+        menuConfig.backgroundColor = '#AB5AD6';
+        this.add.text(game.config.width / 2, 366, 'Press E for Easy or H for Hard', menuConfig).setOrigin(0.5);
         
         // define keys
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     }
 
     update(){
-        if(Phaser.Input.Keyboard.JustDown(keyLEFT)){
+        if(Phaser.Input.Keyboard.JustDown(keyE)){
             // easy mode
             game.settings = {
                 spaceshipSpeed: 3,
@@ -57,7 +64,7 @@ class Menu extends Phaser.Scene{
             this.sound.play('sfx_select');
             this.scene.start('playScene');
         }
-        if(Phaser.Input.Keyboard.JustDown(keyRIGHT)){
+        if(Phaser.Input.Keyboard.JustDown(keyF)){
             // hard mode
             game.settings = {
                 spaceshipSpeed: 4,

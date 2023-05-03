@@ -13,10 +13,9 @@ class Play extends Phaser.Scene{
         this.load.image('space', './assets/space.png');
         this.load.atlas('flares', './assets/flares.png', './assets/flares.json');   // load particle emmiter
 
-
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight:
-        32, startFrame: 0, endFrame: 9});
+        32, startFrame: 9, endFrame: 9});
     }
 
     create() {
@@ -25,14 +24,14 @@ class Play extends Phaser.Scene{
 
         // green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2,
-            0x00FF00).setOrigin(0, 0);
-        // white borders
-        this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
+            0x5A73D6).setOrigin(0, 0);
+        // cream borders
+        this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFAEAA7).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize,
-            0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
+            0xFAEAA7).setOrigin(0, 0);
+        this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFAEAA7).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height,
-            0xFFFFFF).setOrigin(0, 0);
+            0xFAEAA7).setOrigin(0, 0);
         
         // add rocket (p1)
         this.p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - 
@@ -40,15 +39,15 @@ class Play extends Phaser.Scene{
         
         // add spaceships (x3)
         this.ship01 = new Spaceship(this, game.config.width + borderUISize * 7, borderUISize * 5,
-            'spaceship', 0, 30).setOrigin(0, 0);
+            'spaceship', 0, 3).setOrigin(0, 0);
         this.ship02 = new Spaceship(this, game.config.width + borderUISize * 4, borderUISize * 6 +
-            borderPadding * 3, 'spaceship', 0, 20).setOrigin(0, 0);
+            borderPadding * 3, 'spaceship', 0, 2).setOrigin(0, 0);
         this.ship03 = new Spaceship(this, game.config.width, borderUISize * 7 + borderPadding * 5,
-            'spaceship', 0, 10).setOrigin(0, 0);
+            'spaceship', 0, 1).setOrigin(0, 0);
 
         // add smaller ufo/spaceship object
         this.ufo = new Ufo(this, game.config.width + borderUISize * 10, borderUISize * 4,
-            'ufo', 0, 40).setOrigin(0, 0);
+            'ufo', 0, 4).setOrigin(0, 0);
 
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -71,9 +70,9 @@ class Play extends Phaser.Scene{
         let scoreConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            aslign: 'right',
+            backgroundColor: '#6FEDD2',
+            color: '#E269FA',
+            allign: 'right',
             padding: {
                 top: 5,
                 bottom: 5,
@@ -111,10 +110,7 @@ class Play extends Phaser.Scene{
         this.input.on('pointermove', function(pointer){
 
             if(!this.p1Rocket.isFiring || this.p1Rocket.isFiring && !this.gameOver){
-                //if(this.p1Rocket.x >=borderUISize + this.p1Rocket.width && this.p1Rocket.x 
-                //    <= game.config.width - borderUISize - this.p1Rocket.width){
                         this.p1Rocket.x += pointer.movementX;
-                //}
             }
         }, this); 
 
@@ -203,7 +199,7 @@ class Play extends Phaser.Scene{
         // temporarily hide ship
         ship.alpha = 0;
         // create explosion sprite at ship's position
-        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
+        let boom = this.add.sprite(ship.x, ship.y, 'flares').setOrigin(0, 0);
         boom.anims.play('explode');                 // play explode animation
         boom.on('animationcomplete', () => {        // callback after anim completes
             ship.reset();                           // reset ship position
