@@ -50,7 +50,7 @@ class Menu extends Phaser.Scene{
         
         // define keys
         keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
     }
 
     update(){
@@ -65,7 +65,7 @@ class Menu extends Phaser.Scene{
             this.sound.play('sfx_select');
             this.scene.start('playScene');
         }
-        if(Phaser.Input.Keyboard.JustDown(keyF)){
+        if(Phaser.Input.Keyboard.JustDown(keyH)){
             // hard mode
             game.settings = {
                 spaceshipSpeed: 4,
